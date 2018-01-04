@@ -61,9 +61,11 @@ def powershell_encode(data):
 def usage():
     print("Version: {0}".format(__version__))
     print("Usage: {0} <options>\n".format(sys.argv[0]))
+    print("Enters interactive mode if no options provided.")
     print("Options:")
     print("   -h, --help                  Show this help message and exit")
-    #print("   -s, --script      <script>  PowerShell Script.")
+    print("   -s, --script      <script>  PowerShell Script.")
+
     sys.exit(0)
 
 
@@ -79,25 +81,21 @@ def main():
     for opt, arg in options:
         if opt in ('-h', '--help'):
             usage()
+        elif opt in ('-s', '--script'):  
+            script_file = arg
+            if not os.path.isfile(script_file):
+                    print "The specified powershell script does not exists"
+                    sys.exit(1)
+            else:
+                ps_script = open(script_file, 'r').read()
+                print powershell_encode(ps_script)
+                exit()
         
     else:
         while 1:
             ps_script =  raw_input("ps_encoder$ ")
             print(powershell_encode(ps_script))
             print "powershell -encodedCommand",powershell_encode(ps_script)
-
-
-
-        '''    
-        elif opt in ('-s', '--script'):
-            script_file = arg
-            if not os.path.isfile(script_file):
-                print "The specified powershell script does not exists"
-                sys.exit(1)
-            else:
-                ps_script = open(script_file, 'r').read()
-                print powershell_encode(ps_script)
-        '''
 
 
 if __name__ == "__main__":
