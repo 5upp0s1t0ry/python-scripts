@@ -93,10 +93,12 @@ def main():
         
     else:
         while 1:
-            ps_script =  raw_input("ps_encoder$ ")
-            print(powershell_encode(ps_script))
-            print "powershell -encodedCommand",powershell_encode(ps_script)
-
+            try:
+                ps_script =  raw_input("ps_encoder$ ")
+                print(powershell_encode(ps_script))
+                print "powershell -encodedCommand",powershell_encode(ps_script)
+            except KeyboardInterrupt:
+                exit("\nUser interrupt.")
 
 if __name__ == "__main__":
     main()
